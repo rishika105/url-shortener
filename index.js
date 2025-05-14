@@ -29,7 +29,7 @@ app.use(express.static('views'));
 app.use(cors());
 
 //define routes
-app.use("/api/url", urlRoutes);
+app.use("/url", urlRoutes);
 app.use("/", staticRoutes);
 
 // app.get("/test", async (req, res) => {

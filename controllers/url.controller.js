@@ -11,7 +11,7 @@ export const handleGenerateNewShortUrl = async (req, res) => {
         message: "URL not found!",
       });
 
-    const shortID = nanoid(9);
+    const shortID = nanoid(8);
     const result = await URL.create({
       shortId: shortID,
       redirectURL: url,

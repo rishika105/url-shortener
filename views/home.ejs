@@ -226,7 +226,7 @@
       </header>
 
       <div class="card">
-        <form method="POST" action="/api/url">
+        <form method="POST" action="/url">
           <div class="form-group">
             <label for="url">Enter your long URL</label>
             <input
@@ -246,7 +246,7 @@
             <input
               type="text"
               id="short-url"
-              value="<%= locals.id ? `${baseUrl}/api/url/${id}` : '' %>"
+              value="<%= locals.id ? `${baseUrl}/url/${id}` : '' %>"
               readonly
             />
             <button class="copy-btn" id="copy-btn">Copy</button>
