@@ -18,11 +18,16 @@ export const handleGenerateNewShortUrl = async (req, res) => {
       visitedHistory: [],
     });
 
-    return res.status(200).json({
-      success: true,
-      message: "Shortened url success",
-      result,
+    return res.render("home", {
+      id: shortID,
+      baseUrl: process.env.NODE_URL,
     });
+
+    // return res.status(200).json({
+    //   success: true,
+    //   message: "Shortened url success",
+    //   result,
+    // });
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({

@@ -1,11 +1,307 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <title>title</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>URL Shortener | Make your links manageable</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+          --primary: #4361ee;
+          --primary-light: #4895ef;
+          --secondary: #3f37c9;
+          --dark: #1a1a2e;
+          --light: #f8f9fa;
+          --success: #4cc9f0;
+          --danger: #f72585;
+      }
+
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+      }
+
+      body {
+          font-family: 'Poppins', sans-serif;
+          background-color: #f5f7fa;
+          color: var(--dark);
+          line-height: 1.6;
+      }
+
+      .container {
+          max-width: 800px;
+          margin: 0 auto;
+          padding: 2rem;
+      }
+
+      header {
+          text-align: center;
+          margin-bottom: 3rem;
+      }
+
+      h1 {
+          font-size: 2.5rem;
+          color: var(--primary);
+          margin-bottom: 1rem;
+          font-weight: 700;
+      }
+
+      .subtitle {
+          font-size: 1.1rem;
+          color: #666;
+          max-width: 600px;
+          margin: 0 auto 2rem;
+      }
+
+      .card {
+          background: white;
+          border-radius: 10px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+          padding: 2.5rem;
+          margin-bottom: 2rem;
+      }
+
+      .form-group {
+          margin-bottom: 1.5rem;
+      }
+
+      label {
+          display: block;
+          margin-bottom: 0.5rem;
+          font-weight: 500;
+          color: var(--dark);
+      }
+
+      input[type="text"] {
+          width: 100%;
+          padding: 1rem;
+          border: 2px solid #e1e5ee;
+          border-radius: 5px;
+          font-size: 1rem;
+          transition: border 0.3s ease;
+      }
+
+      input[type="text"]:focus {
+          outline: none;
+          border-color: var(--primary);
+      }
+
+      input[type="text"]::placeholder {
+          color: #aaa;
+      }
+
+      button {
+          background-color: var(--primary);
+          color: white;
+          border: none;
+          padding: 1rem 2rem;
+          font-size: 1rem;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+          font-weight: 500;
+          width: 100%;
+      }
+
+      button:hover {
+          background-color: var(--secondary);
+      }
+
+      .result {
+          margin-top: 2rem;
+          padding: 1.5rem;
+          background-color: #f0f7ff;
+          border-radius: 5px;
+          border-left: 4px solid var(--primary);
+          display: <% if (locals.id) { %> block <% } else { %> none <% } %>;
+      }
+
+      .result-title {
+          font-weight: 600;
+          margin-bottom: 0.5rem;
+          color: var(--dark);
+      }
+
+      .short-url {
+          display: flex;
+          align-items: center;
+          margin-top: 1rem;
+      }
+
+      .short-url input {
+          flex-grow: 1;
+          padding: 0.8rem;
+          border: 2px solid #e1e5ee;
+          border-radius: 5px 0 0 5px;
+          font-size: 1rem;
+      }
+
+      .copy-btn {
+          background-color: var(--primary-light);
+          color: white;
+          border: none;
+          padding: 0.8rem 1.5rem;
+          cursor: pointer;
+          border-radius: 0 5px 5px 0;
+          transition: background-color 0.3s ease;
+          font-size: 1rem;
+          width: auto;
+      }
+
+      .copy-btn:hover {
+          background-color: var(--secondary);
+      }
+
+      .features {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 1.5rem;
+          margin-top: 3rem;
+      }
+
+      .feature {
+          background: white;
+          padding: 1.5rem;
+          border-radius: 8px;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+          text-align: center;
+      }
+
+      .feature-icon {
+          font-size: 2rem;
+          color: var(--primary);
+          margin-bottom: 1rem;
+      }
+
+      .feature-title {
+          font-weight: 600;
+          margin-bottom: 0.5rem;
+      }
+
+      .feature-desc {
+          color: #666;
+          font-size: 0.9rem;
+      }
+
+      footer {
+          text-align: center;
+          margin-top: 3rem;
+          color: #666;
+          font-size: 0.9rem;
+      }
+
+      @media (max-width: 768px) {
+          .container {
+              padding: 1.5rem;
+          }
+
+          h1 {
+              font-size: 2rem;
+          }
+
+          .card {
+              padding: 1.5rem;
+          }
+      }
+    </style>
   </head>
   <body>
-    <p>Helloooooooo></p>
-    <h1>Hey from server</h1>
+    <div class="container">
+      <header>
+        <a
+          href="/"
+          style="text-decoration: none; color: inherit; cursor: pointer"
+        >
+          <h1>URL Shortener</h1>
+        </a>
+
+        <p class="subtitle">
+          Shorten your long URLs and make them easier to share, remember, and
+          track.
+        </p>
+      </header>
+
+      <div class="card">
+        <form method="POST" action="/api/url">
+          <div class="form-group">
+            <label for="url">Enter your long URL</label>
+            <input
+              type="text"
+              name="url"
+              id="url"
+              placeholder="https://example.com/very-long-url-that-needs-to-be-shortened"
+              required
+            />
+          </div>
+          <button type="submit">Shorten URL</button>
+        </form>
+
+        <div class="result" id="result">
+          <p class="result-title">Your shortened URL:</p>
+          <div class="short-url">
+            <input
+              type="text"
+              id="short-url"
+              value="<%= locals.id ? `${baseUrl}/api/url/${id}` : '' %>"
+              readonly
+            />
+            <button class="copy-btn" id="copy-btn">Copy</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon">🔗</div>
+          <h3 class="feature-title">Simple & Fast</h3>
+          <p class="feature-desc">
+            Shorten your URLs in seconds with our easy-to-use tool.
+          </p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">📊</div>
+          <h3 class="feature-title">Analytics</h3>
+          <p class="feature-desc">
+            Track how many clicks your shortened URLs receive.
+          </p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🔒</div>
+          <h3 class="feature-title">Reliable</h3>
+          <p class="feature-desc">
+            Our service is always available when you need it.
+          </p>
+        </div>
+      </div>
+
+      <footer>
+        <p>© 2023 URL Shortener. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      // Copy functionality
+      document.getElementById('copy-btn')?.addEventListener('click', function() {
+          const shortUrlInput = document.getElementById('short-url');
+          shortUrlInput.select();
+          document.execCommand('copy');
+
+          // Change button text temporarily
+          const originalText = this.textContent;
+          this.textContent = 'Copied!';
+          setTimeout(() => {
+              this.textContent = originalText;
+          }, 2000);
+      });
+
+      // Show result section if there's a shortened URL
+      <% if (locals.id) { %>
+          document.getElementById('result').style.display = 'block';
+      <% } %>
+    </script>
   </body>
 </html>
